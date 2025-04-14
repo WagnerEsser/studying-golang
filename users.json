@@ -1,18 +1,5 @@
 [
   {
-    "id": "422fe9b8-c972-4cbf-b2fc-72c13e1dff59",
-    "age": 30,
-    "phone_number": "(47) 99999-9999",
-    "email": "wagner@exemplo.com",
-    "address": {
-      "street": "Rua Tarantino",
-      "number": 342,
-      "city": "Joinville",
-      "state": "SC",
-      "country": "Brasil"
-    }
-  },
-  {
     "id": "189b5f25-9e23-4687-af79-05310b59339d",
     "age": 25,
     "phone_number": "(11) 91234-5678",
@@ -22,6 +9,19 @@
       "number": 123,
       "city": "São Paulo",
       "state": "SP",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "422fe9b8-c972-4cbf-b2fc-72c13e1dff59",
+    "age": 30,
+    "phone_number": "(47) 99999-9999",
+    "email": "wagner@exemplo.com",
+    "address": {
+      "street": "Rua Tarantino",
+      "number": 555,
+      "city": "Joinville",
+      "state": "SC",
       "country": "Brasil"
     }
   }
