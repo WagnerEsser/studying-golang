@@ -24,5 +24,395 @@
       "state": "SC",
       "country": "Brasil"
     }
+  },
+  {
+    "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "age": 22,
+    "phone_number": "(21) 98765-4321",
+    "email": "bruno@exemplo.com",
+    "address": {
+      "street": "Avenida Atlântica",
+      "number": 101,
+      "city": "Rio de Janeiro",
+      "state": "RJ",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "f1e2d3c4-b5a6-7890-cdef-1234567890ab",
+    "age": 28,
+    "phone_number": "(31) 91234-5678",
+    "email": "carla@exemplo.com",
+    "address": {
+      "street": "Rua dos Diamantes",
+      "number": 202,
+      "city": "Belo Horizonte",
+      "state": "MG",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "12345678-90ab-cdef-1234-567890abcdef",
+    "age": 35,
+    "phone_number": "(51) 99876-5432",
+    "email": "daniel@exemplo.com",
+    "address": {
+      "street": "Rua das Palmeiras",
+      "number": 303,
+      "city": "Porto Alegre",
+      "state": "RS",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "abcdef12-3456-7890-abcd-ef1234567890",
+    "age": 40,
+    "phone_number": "(85) 98765-4321",
+    "email": "elisa@exemplo.com",
+    "address": {
+      "street": "Avenida Beira Mar",
+      "number": 404,
+      "city": "Fortaleza",
+      "state": "CE",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "7890abcd-ef12-3456-7890-abcd12345678",
+    "age": 27,
+    "phone_number": "(62) 91234-5678",
+    "email": "fabio@exemplo.com",
+    "address": {
+      "street": "Rua Goiás",
+      "number": 505,
+      "city": "Goiânia",
+      "state": "GO",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "4567890a-bcde-f123-4567-890abcdef123",
+    "age": 33,
+    "phone_number": "(71) 99876-5432",
+    "email": "gabriela@exemplo.com",
+    "address": {
+      "street": "Rua Bahia",
+      "number": 606,
+      "city": "Salvador",
+      "state": "BA",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "890abcdef-1234-5678-90ab-cdef12345678",
+    "age": 29,
+    "phone_number": "(95) 98765-4321",
+    "email": "henrique@exemplo.com",
+    "address": {
+      "street": "Rua Amazonas",
+      "number": 707,
+      "city": "Manaus",
+      "state": "AM",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "567890ab-cdef-1234-5678-90abcdef1234",
+    "age": 31,
+    "phone_number": "(98) 91234-5678",
+    "email": "isabela@exemplo.com",
+    "address": {
+      "street": "Rua Maranhão",
+      "number": 808,
+      "city": "São Luís",
+      "state": "MA",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "23456789-0abc-def1-2345-67890abcdef1",
+    "age": 26,
+    "phone_number": "(27) 99876-5432",
+    "email": "joao@exemplo.com",
+    "address": {
+      "street": "Rua Espírito Santo",
+      "number": 909,
+      "city": "Vitória",
+      "state": "ES",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "67890abc-def1-2345-6789-0abcdef12345",
+    "age": 24,
+    "phone_number": "(92) 98765-4321",
+    "email": "karen@exemplo.com",
+    "address": {
+      "street": "Rua Amazonas",
+      "number": 1010,
+      "city": "Manaus",
+      "state": "AM",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "7890abcd-ef12-3456-7890-abcd12345679",
+    "age": 32,
+    "phone_number": "(41) 91234-5678",
+    "email": "lucas@exemplo.com",
+    "address": {
+      "street": "Rua Paraná",
+      "number": 1111,
+      "city": "Curitiba",
+      "state": "PR",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "890abcdef-1234-5678-90ab-cdef12345679",
+    "age": 29,
+    "phone_number": "(65) 99876-5432",
+    "email": "mariana@exemplo.com",
+    "address": {
+      "street": "Rua Cuiabá",
+      "number": 1212,
+      "city": "Cuiabá",
+      "state": "MT",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "1a2b3c4d-5e6f-7890-abcd-ef1234567891",
+    "age": 23,
+    "phone_number": "(11) 98765-4321",
+    "email": "user1@exemplo.com",
+    "address": {
+      "street": "Rua Nova",
+      "number": 1,
+      "city": "São Paulo",
+      "state": "SP",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "2b3c4d5e-6f7g-890a-bcde-f12345678912",
+    "age": 34,
+    "phone_number": "(21) 91234-5678",
+    "email": "user2@exemplo.com",
+    "address": {
+      "street": "Rua Velha",
+      "number": 2,
+      "city": "Rio de Janeiro",
+      "state": "RJ",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "3c4d5e6f-7g8h-90ab-cdef-123456789123",
+    "age": 28,
+    "phone_number": "(31) 99876-5432",
+    "email": "user3@exemplo.com",
+    "address": {
+      "street": "Rua Central",
+      "number": 3,
+      "city": "Belo Horizonte",
+      "state": "MG",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "4d5e6f7g-8h9i-0abc-def1-234567891234",
+    "age": 29,
+    "phone_number": "(41) 98765-4321",
+    "email": "user4@exemplo.com",
+    "address": {
+      "street": "Rua Principal",
+      "number": 4,
+      "city": "Curitiba",
+      "state": "PR",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "5e6f7g8h-9i0j-abcd-ef12-345678912345",
+    "age": 31,
+    "phone_number": "(51) 91234-5678",
+    "email": "user5@exemplo.com",
+    "address": {
+      "street": "Rua Secundária",
+      "number": 5,
+      "city": "Porto Alegre",
+      "state": "RS",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "6f7g8h9i-0j1k-bcde-f123-456789123456",
+    "age": 27,
+    "phone_number": "(62) 99876-5432",
+    "email": "user6@exemplo.com",
+    "address": {
+      "street": "Rua Terceira",
+      "number": 6,
+      "city": "Goiânia",
+      "state": "GO",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "7g8h9i0j-1k2l-cdef-1234-567891234567",
+    "age": 35,
+    "phone_number": "(71) 98765-4321",
+    "email": "user7@exemplo.com",
+    "address": {
+      "street": "Rua Quarta",
+      "number": 7,
+      "city": "Salvador",
+      "state": "BA",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "8h9i0j1k-2l3m-def1-2345-678912345678",
+    "age": 26,
+    "phone_number": "(85) 91234-5678",
+    "email": "user8@exemplo.com",
+    "address": {
+      "street": "Rua Quinta",
+      "number": 8,
+      "city": "Fortaleza",
+      "state": "CE",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "9i0j1k2l-3m4n-ef12-3456-789123456789",
+    "age": 30,
+    "phone_number": "(95) 99876-5432",
+    "email": "user9@exemplo.com",
+    "address": {
+      "street": "Rua Sexta",
+      "number": 9,
+      "city": "Manaus",
+      "state": "AM",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "0j1k2l3m-4n5o-f123-4567-891234567890",
+    "age": 32,
+    "phone_number": "(98) 98765-4321",
+    "email": "user10@exemplo.com",
+    "address": {
+      "street": "Rua Sétima",
+      "number": 10,
+      "city": "São Luís",
+      "state": "MA",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "1k2l3m4n-5o6p-g123-4567-891234567891",
+    "age": 36,
+    "phone_number": "(11) 99999-8888",
+    "email": "user11@exemplo.com",
+    "address": {
+      "street": "Rua Oitava",
+      "number": 11,
+      "city": "São Paulo",
+      "state": "SP",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "2l3m4n5o-6p7q-h123-4567-891234567892",
+    "age": 28,
+    "phone_number": "(21) 88888-7777",
+    "email": "user12@exemplo.com",
+    "address": {
+      "street": "Rua Nona",
+      "number": 12,
+      "city": "Rio de Janeiro",
+      "state": "RJ",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "3m4n5o6p-7q8r-i123-4567-891234567893",
+    "age": 29,
+    "phone_number": "(31) 77777-6666",
+    "email": "user13@exemplo.com",
+    "address": {
+      "street": "Rua Décima",
+      "number": 13,
+      "city": "Belo Horizonte",
+      "state": "MG",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "4n5o6p7q-8r9s-j123-4567-891234567894",
+    "age": 33,
+    "phone_number": "(41) 66666-5555",
+    "email": "user14@exemplo.com",
+    "address": {
+      "street": "Rua Décima Primeira",
+      "number": 14,
+      "city": "Curitiba",
+      "state": "PR",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "5o6p7q8r-9s0t-k123-4567-891234567895",
+    "age": 31,
+    "phone_number": "(51) 55555-4444",
+    "email": "user15@exemplo.com",
+    "address": {
+      "street": "Rua Décima Segunda",
+      "number": 15,
+      "city": "Porto Alegre",
+      "state": "RS",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "6p7q8r9s-0t1u-l123-4567-891234567896",
+    "age": 29,
+    "phone_number": "(62) 44444-3333",
+    "email": "user16@exemplo.com",
+    "address": {
+      "street": "Rua Décima Terceira",
+      "number": 16,
+      "city": "Goiânia",
+      "state": "GO",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "7q8r9s0t-1u2v-m123-4567-891234567897",
+    "age": 34,
+    "phone_number": "(71) 33333-2222",
+    "email": "user17@exemplo.com",
+    "address": {
+      "street": "Rua Décima Quarta",
+      "number": 17,
+      "city": "Salvador",
+      "state": "BA",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "8r9s0t1u-2v3w-n123-4567-891234567898",
+    "age": 27,
+    "phone_number": "(85) 22222-1111",
+    "email": "user18@exemplo.com",
+    "address": {
+      "street": "Rua Décima Quinta",
+      "number": 18,
+      "city": "Fortaleza",
+      "state": "CE",
+      "country": "Brasil"
+    }
   }
 ]
