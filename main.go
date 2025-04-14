@@ -4,16 +4,56 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+
+	"github.com/google/uuid"
 )
 
 func main() {
-	http.HandleFunc("/hello", greetHandler)
+	http.HandleFunc("/", greetHandler)
 	http.HandleFunc("/greet", greetHandler)
 
 	http.HandleFunc("/users", getUsers)
+	http.HandleFunc("/users/new", createUser)
 
 	log.Println("Server is running on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
+}
+
+var users []User
+
+func createUser(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		return
+	}
+
+	var newUser User
+	err := json.NewDecoder(r.Body).Decode(&newUser)
+	if err != nil {
+		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		return
+	}
+
+	id, err := uuid.NewRandom()
+	if err != nil {
+		http.Error(w, "Failed to generate UUID", http.StatusInternalServerError)
+		return
+	}
+	newUser.ID = id
+
+	id, err = uuid.NewRandom()
+	if err != nil {
+		http.Error(w, "Failed to generate UUID", http.StatusInternalServerError)
+		return
+	}
+	newUser.Address.ID = id
+
+	users = append(users, newUser)
+	log.Printf("Current users: %+v\n", users)
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte(`{"message": "User created successfully"}`))
 }
 
 func greetHandler(w http.ResponseWriter, r *http.Request) {
@@ -28,18 +68,6 @@ func greetHandler(w http.ResponseWriter, r *http.Request) {
 
 func getUsers(w http.ResponseWriter, r *http.Request) {
 	usersMock := []User{
-		{
-			Age:         25,
-			PhoneNumber: "(11) 91234-5678",
-			Email:       "alice@exemplo.com",
-			Address: Address{
-				Street:  "Rua das Flores",
-				Number:  123,
-				City:    "São Paulo",
-				State:   "SP",
-				Country: "Brasil",
-			},
-		},
 		{
 			Age:         30,
 			PhoneNumber: "(21) 99876-5432",
@@ -72,18 +100,18 @@ func getUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 type User struct {
-	ID          int     `json:"id"`
-	Age         int     `json:"age"`
-	PhoneNumber string  `json:"phone_number"`
-	Email       string  `json:"email"`
-	Address     Address `json:"address"`
+	ID          uuid.UUID `json:"id"`
+	Age         int       `json:"age"`
+	PhoneNumber string    `json:"phone_number"`
+	Email       string    `json:"email"`
+	Address     Address   `json:"address"`
 }
 
 type Address struct {
-	ID      int    `json:"id"`
-	Street  string `json:"street"`
-	Number  int    `json:"number"`
-	City    string `json:"city"`
-	State   string `json:"state"`
-	Country string `json:"country"`
+	ID      uuid.UUID `json:"id"`
+	Street  string    `json:"street"`
+	Number  int       `json:"number"`
+	City    string    `json:"city"`
+	State   string    `json:"state"`
+	Country string    `json:"country"`
 }
