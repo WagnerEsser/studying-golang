@@ -1,0 +1,15 @@
+[
+  {
+    "id": "c6e1c18d-43e6-478f-8a84-a5ee8681d7bf",
+    "age": 25,
+    "phone_number": "(11) 91234-5678",
+    "email": "alice@exemplo.com",
+    "address": {
+      "street": "Rua das Flores",
+      "number": 123,
+      "city": "São Paulo",
+      "state": "SP",
+      "country": "Brasil"
+    }
+  }
+]

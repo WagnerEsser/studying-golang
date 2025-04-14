@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/google/uuid"
 )
@@ -19,7 +20,46 @@ func main() {
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
-var users []User
+const usersFile = "users.json"
+
+func ensureUsersFileExists() {
+	if _, err := os.Stat(usersFile); os.IsNotExist(err) {
+		file, err := os.Create(usersFile)
+		if err != nil {
+			log.Fatalf("Failed to create users file: %v", err)
+		}
+		defer file.Close()
+
+		// Initialize with an empty array
+		file.Write([]byte("[]"))
+	}
+}
+
+func readUsersFromFile() ([]User, error) {
+	ensureUsersFileExists()
+
+	data, err := os.ReadFile(usersFile)
+	if err != nil {
+		return nil, err
+	}
+
+	var users []User
+	err = json.Unmarshal(data, &users)
+	if err != nil {
+		return nil, err
+	}
+
+	return users, nil
+}
+
+func writeUsersToFile(users []User) error {
+	data, err := json.MarshalIndent(users, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	return os.WriteFile(usersFile, data, 0644)
+}
 
 func createUser(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
@@ -41,19 +81,35 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	}
 	newUser.ID = id
 
-	id, err = uuid.NewRandom()
+	users, err := readUsersFromFile()
 	if err != nil {
-		http.Error(w, "Failed to generate UUID", http.StatusInternalServerError)
+		http.Error(w, "Failed to read users file", http.StatusInternalServerError)
 		return
 	}
-	newUser.Address.ID = id
 
 	users = append(users, newUser)
-	log.Printf("Current users: %+v\n", users)
+
+	err = writeUsersToFile(users)
+	if err != nil {
+		http.Error(w, "Failed to write to users file", http.StatusInternalServerError)
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte(`{"message": "User created successfully"}`))
+	json.NewEncoder(w).Encode(CreateResponse{ID: newUser.ID.String()})
+}
+
+func getUsers(w http.ResponseWriter, r *http.Request) {
+	users, err := readUsersFromFile()
+	if err != nil {
+		http.Error(w, "Failed to read users file", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(users)
 }
 
 func greetHandler(w http.ResponseWriter, r *http.Request) {
@@ -66,39 +122,6 @@ func greetHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Hello, " + name + "!"))
 }
 
-func getUsers(w http.ResponseWriter, r *http.Request) {
-	usersMock := []User{
-		{
-			Age:         30,
-			PhoneNumber: "(21) 99876-5432",
-			Email:       "bob@exemplo.com",
-			Address: Address{
-				Street:  "Avenida Atlântica",
-				Number:  456,
-				City:    "Rio de Janeiro",
-				State:   "RJ",
-				Country: "Brasil",
-			},
-		},
-		{
-			Age:         35,
-			PhoneNumber: "(31) 95555-5555",
-			Email:       "charlie@exemplo.com",
-			Address: Address{
-				Street:  "Praça da Liberdade",
-				Number:  789,
-				City:    "Belo Horizonte",
-				State:   "MG",
-				Country: "Brasil",
-			},
-		},
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(usersMock)
-}
-
 type User struct {
 	ID          uuid.UUID `json:"id"`
 	Age         int       `json:"age"`
@@ -108,10 +131,13 @@ type User struct {
 }
 
 type Address struct {
-	ID      uuid.UUID `json:"id"`
-	Street  string    `json:"street"`
-	Number  int       `json:"number"`
-	City    string    `json:"city"`
-	State   string    `json:"state"`
-	Country string    `json:"country"`
+	Street  string `json:"street"`
+	Number  int    `json:"number"`
+	City    string `json:"city"`
+	State   string `json:"state"`
+	Country string `json:"country"`
+}
+
+type CreateResponse struct {
+	ID string `json:"id"`
 }
