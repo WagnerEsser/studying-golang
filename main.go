@@ -15,6 +15,7 @@ func main() {
 
 	http.HandleFunc("/users", getUsers)
 	http.HandleFunc("/users/new", createUser)
+	http.HandleFunc("/users/", getUserByID)
 
 	log.Println("Server is running on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
@@ -30,7 +31,6 @@ func ensureUsersFileExists() {
 		}
 		defer file.Close()
 
-		// Initialize with an empty array
 		file.Write([]byte("[]"))
 	}
 }
@@ -110,6 +110,32 @@ func getUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(users)
+}
+
+func getUserByID(w http.ResponseWriter, r *http.Request) {
+	idStr := r.URL.Path[len("/users/"):]
+	id, err := uuid.Parse(idStr)
+	if err != nil {
+		http.Error(w, "Invalid user ID", http.StatusBadRequest)
+		return
+	}
+
+	users, err := readUsersFromFile()
+	if err != nil {
+		http.Error(w, "Failed to read users file", http.StatusInternalServerError)
+		return
+	}
+
+	for _, user := range users {
+		if user.ID == id {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			json.NewEncoder(w).Encode(user)
+			return
+		}
+	}
+
+	http.Error(w, "User not found", http.StatusNotFound)
 }
 
 func greetHandler(w http.ResponseWriter, r *http.Request) {
