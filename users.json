@@ -1,6 +1,19 @@
 [
   {
-    "id": "c6e1c18d-43e6-478f-8a84-a5ee8681d7bf",
+    "id": "422fe9b8-c972-4cbf-b2fc-72c13e1dff59",
+    "age": 25,
+    "phone_number": "(47) 99999-9999",
+    "email": "wagner@exemplo.com",
+    "address": {
+      "street": "Rua Tarantino",
+      "number": 342,
+      "city": "Joinville",
+      "state": "SC",
+      "country": "Brasil"
+    }
+  },
+  {
+    "id": "189b5f25-9e23-4687-af79-05310b59339d",
     "age": 25,
     "phone_number": "(11) 91234-5678",
     "email": "alice@exemplo.com",

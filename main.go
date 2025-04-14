@@ -14,8 +14,9 @@ func main() {
 	http.HandleFunc("/greet", greetHandler)
 
 	http.HandleFunc("/users", getUsers)
-	http.HandleFunc("/users/new", createUser)
 	http.HandleFunc("/users/", getUserByID)
+	http.HandleFunc("/users/new", createUser)
+	http.HandleFunc("/users/delete/", deleteUser)
 
 	log.Println("Server is running on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
@@ -63,7 +64,7 @@ func writeUsersToFile(users []User) error {
 
 func createUser(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
@@ -100,7 +101,47 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(CreateResponse{ID: newUser.ID.String()})
 }
 
+func deleteUser(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodDelete {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	idStr := r.URL.Path[len("/users/delete/"):]
+	id, err := uuid.Parse(idStr)
+	if err != nil {
+		http.Error(w, "Invalid user ID", http.StatusBadRequest)
+		return
+	}
+
+	users, err := readUsersFromFile()
+	if err != nil {
+		http.Error(w, "Failed to read users file", http.StatusInternalServerError)
+		return
+	}
+
+	var updatedUsers []User
+	for _, user := range users {
+		if user.ID != id {
+			updatedUsers = append(updatedUsers, user)
+		}
+	}
+
+	err = writeUsersToFile(updatedUsers)
+	if err != nil {
+		http.Error(w, "Failed to write to users file", http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+}
+
 func getUsers(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
 	users, err := readUsersFromFile()
 	if err != nil {
 		http.Error(w, "Failed to read users file", http.StatusInternalServerError)
@@ -113,6 +154,11 @@ func getUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func getUserByID(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
 	idStr := r.URL.Path[len("/users/"):]
 	id, err := uuid.Parse(idStr)
 	if err != nil {
@@ -139,6 +185,11 @@ func getUserByID(w http.ResponseWriter, r *http.Request) {
 }
 
 func greetHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
 	name := r.URL.Query().Get("name")
 	if name == "" {
 		name = "World"
