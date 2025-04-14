@@ -17,6 +17,7 @@ func main() {
 	http.HandleFunc("/users/", getUserByID)
 	http.HandleFunc("/users/new", createUser)
 	http.HandleFunc("/users/delete/", deleteUser)
+	http.HandleFunc("/users/edit/", updateUser)
 
 	log.Println("Server is running on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
@@ -99,6 +100,49 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(CreateResponse{ID: newUser.ID.String()})
+}
+
+func updateUser(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPut {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	idStr := r.URL.Path[len("/users/edit/"):]
+
+	id, err := uuid.Parse(idStr)
+	if err != nil {
+		http.Error(w, "Invalid user ID", http.StatusBadRequest)
+		return
+	}
+
+	var updatedUser User
+	err = json.NewDecoder(r.Body).Decode(&updatedUser)
+	if err != nil {
+		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		return
+	}
+
+	users, err := readUsersFromFile()
+	if err != nil {
+		http.Error(w, "Failed to read users file", http.StatusInternalServerError)
+		return
+	}
+
+	for i, user := range users {
+		if user.ID == id {
+			users[i] = updatedUser
+			break
+		}
+	}
+
+	err = writeUsersToFile(users)
+	if err != nil {
+		http.Error(w, "Failed to write to users file", http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
 }
 
 func deleteUser(w http.ResponseWriter, r *http.Request) {
