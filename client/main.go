@@ -99,15 +99,8 @@ func main() {
 		return
 	}
 
-	body, err = io.ReadAll(resp.Body)
-
-	if err != nil {
-		fmt.Printf("Failed to read response body: %v\n", err.Error())
-		return
-	}
-
 	var users []User
-	err = json.Unmarshal(body, &users)
+	err = json.NewDecoder(resp.Body).Decode(&users)
 
 	if err != nil {
 		fmt.Printf("Failed to unmarshal response body: %v\n", err.Error())

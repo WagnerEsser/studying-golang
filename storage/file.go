@@ -7,7 +7,7 @@ import (
 	"studying-go/models"
 )
 
-const usersFile = "users.json"
+const usersFile = "storage/users.json"
 
 func EnsureUsersFileExists() {
 	if _, err := os.Stat(usersFile); os.IsNotExist(err) {

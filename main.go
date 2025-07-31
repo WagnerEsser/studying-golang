@@ -3,18 +3,17 @@ package main
 import (
 	"log"
 	"net/http"
-	"studying-go/handlers"
+	"studying-go/routes"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	http.HandleFunc("/", handlers.GreetHandler)
-	http.HandleFunc("/greet", handlers.GreetHandler)
+	if err := godotenv.Load(); err != nil {
+		log.Fatal("Error loading .env file:", err)
+	}
 
-	http.HandleFunc("/users", handlers.GetUsers)
-	http.HandleFunc("/users/", handlers.GetUserByID)
-	http.HandleFunc("/users/new", handlers.CreateUser)
-	http.HandleFunc("/users/delete/", handlers.DeleteUser)
-	http.HandleFunc("/users/edit/", handlers.UpdateUser)
+	routes.InitRoutes()
 
 	log.Println("Server is running on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))

@@ -5,33 +5,34 @@ import (
 	"net/http"
 	"studying-go/models"
 	"studying-go/storage"
+	restError "studying-go/types"
 
 	"github.com/google/uuid"
 )
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		restError.NewMethodNotAllowedError().Throw(w)
 		return
 	}
 
 	var newUser models.User
 	err := json.NewDecoder(r.Body).Decode(&newUser)
 	if err != nil {
-		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		restError.NewBadRequestError("Invalid request body").Throw(w)
 		return
 	}
 
 	id, err := uuid.NewRandom()
 	if err != nil {
-		http.Error(w, "Failed to generate UUID", http.StatusInternalServerError)
+		restError.NewInternalServerError("Failed to generate UUID").Throw(w)
 		return
 	}
 	newUser.ID = id
 
 	users, err := storage.ReadUsersFromFile()
 	if err != nil {
-		http.Error(w, "Failed to read users file", http.StatusInternalServerError)
+		restError.NewInternalServerError("Failed to read users file").Throw(w)
 		return
 	}
 
@@ -39,7 +40,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	err = storage.WriteUsersToFile(users)
 	if err != nil {
-		http.Error(w, "Failed to write to users file", http.StatusInternalServerError)
+		restError.NewInternalServerError("Failed to write to users file").Throw(w)
 		return
 	}
 
@@ -50,7 +51,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPut {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		restError.NewMethodNotAllowedError().Throw(w)
 		return
 	}
 
@@ -58,20 +59,20 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	id, err := uuid.Parse(idStr)
 	if err != nil {
-		http.Error(w, "Invalid user ID", http.StatusBadRequest)
+		restError.NewBadRequestError("Invalid user ID").Throw(w)
 		return
 	}
 
 	var updatedUser models.User
 	err = json.NewDecoder(r.Body).Decode(&updatedUser)
 	if err != nil {
-		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		restError.NewBadRequestError("Invalid request body").Throw(w)
 		return
 	}
 
 	users, err := storage.ReadUsersFromFile()
 	if err != nil {
-		http.Error(w, "Failed to read users file", http.StatusInternalServerError)
+		restError.NewInternalServerError("Failed to read users file").Throw(w)
 		return
 	}
 
@@ -84,7 +85,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	err = storage.WriteUsersToFile(users)
 	if err != nil {
-		http.Error(w, "Failed to write to users file", http.StatusInternalServerError)
+		restError.NewInternalServerError("Failed to write to users file").Throw(w)
 		return
 	}
 
@@ -93,20 +94,20 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodDelete {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		restError.NewMethodNotAllowedError().Throw(w)
 		return
 	}
 
 	idStr := r.URL.Path[len("/users/delete/"):]
 	id, err := uuid.Parse(idStr)
 	if err != nil {
-		http.Error(w, "Invalid user ID", http.StatusBadRequest)
+		restError.NewBadRequestError("Invalid user ID").Throw(w)
 		return
 	}
 
 	users, err := storage.ReadUsersFromFile()
 	if err != nil {
-		http.Error(w, "Failed to read users file", http.StatusInternalServerError)
+		restError.NewInternalServerError("Failed to read users file").Throw(w)
 		return
 	}
 
@@ -119,7 +120,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	err = storage.WriteUsersToFile(updatedUsers)
 	if err != nil {
-		http.Error(w, "Failed to write to users file", http.StatusInternalServerError)
+		restError.NewInternalServerError("Failed to write users file").Throw(w)
 		return
 	}
 
@@ -128,13 +129,13 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 func GetUsers(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		restError.NewMethodNotAllowedError().Throw(w)
 		return
 	}
 
 	users, err := storage.ReadUsersFromFile()
 	if err != nil {
-		http.Error(w, "Failed to read users file", http.StatusInternalServerError)
+		restError.NewInternalServerError("Failed to read users file").Throw(w)
 		return
 	}
 
@@ -145,20 +146,20 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 
 func GetUserByID(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		restError.NewMethodNotAllowedError().Throw(w)
 		return
 	}
 
 	idStr := r.URL.Path[len("/users/"):]
 	id, err := uuid.Parse(idStr)
 	if err != nil {
-		http.Error(w, "Invalid user ID", http.StatusBadRequest)
+		restError.NewBadRequestError("Invalid user ID").Throw(w)
 		return
 	}
 
 	users, err := storage.ReadUsersFromFile()
 	if err != nil {
-		http.Error(w, "Failed to read users file", http.StatusInternalServerError)
+		restError.NewInternalServerError("Failed to read users file").Throw(w)
 		return
 	}
 
@@ -171,5 +172,5 @@ func GetUserByID(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	http.Error(w, "User not found", http.StatusNotFound)
+	restError.NewNotFoundError("User not found").Throw(w)
 }
