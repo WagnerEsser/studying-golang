@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"log/slog"
 	"net/http"
 	"studying-go/models"
 	"studying-go/storage"
@@ -19,12 +20,14 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	var newUser models.User
 	err := json.NewDecoder(r.Body).Decode(&newUser)
 	if err != nil {
+		slog.Error("Failed to decode request body", "error", err)
 		restError.NewBadRequestError("Invalid request body").Throw(w)
 		return
 	}
 
 	id, err := uuid.NewRandom()
 	if err != nil {
+		slog.Error("Failed to generate UUID", "error", err)
 		restError.NewInternalServerError("Failed to generate UUID").Throw(w)
 		return
 	}
@@ -32,6 +35,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	users, err := storage.ReadUsersFromFile()
 	if err != nil {
+		slog.Error("Failed to read users file", "error", err)
 		restError.NewInternalServerError("Failed to read users file").Throw(w)
 		return
 	}
@@ -40,6 +44,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	err = storage.WriteUsersToFile(users)
 	if err != nil {
+		slog.Error("Failed to write users file", "error", err)
 		restError.NewInternalServerError("Failed to write to users file").Throw(w)
 		return
 	}
@@ -59,6 +64,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	id, err := uuid.Parse(idStr)
 	if err != nil {
+		slog.Error("Failed to parse user ID", "error", err)
 		restError.NewBadRequestError("Invalid user ID").Throw(w)
 		return
 	}
@@ -66,12 +72,14 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	var updatedUser models.User
 	err = json.NewDecoder(r.Body).Decode(&updatedUser)
 	if err != nil {
+		slog.Error("Failed to decode request body", "error", err)
 		restError.NewBadRequestError("Invalid request body").Throw(w)
 		return
 	}
 
 	users, err := storage.ReadUsersFromFile()
 	if err != nil {
+		slog.Error("Failed to read users file", "error", err)
 		restError.NewInternalServerError("Failed to read users file").Throw(w)
 		return
 	}
@@ -85,6 +93,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	err = storage.WriteUsersToFile(users)
 	if err != nil {
+		slog.Error("Failed to write users file", "error", err)
 		restError.NewInternalServerError("Failed to write to users file").Throw(w)
 		return
 	}
@@ -101,12 +110,14 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	idStr := r.URL.Path[len("/users/delete/"):]
 	id, err := uuid.Parse(idStr)
 	if err != nil {
+		slog.Error("Failed to parse user ID", "error", err)
 		restError.NewBadRequestError("Invalid user ID").Throw(w)
 		return
 	}
 
 	users, err := storage.ReadUsersFromFile()
 	if err != nil {
+		slog.Error("Failed to read users file", "error", err)
 		restError.NewInternalServerError("Failed to read users file").Throw(w)
 		return
 	}
@@ -120,6 +131,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	err = storage.WriteUsersToFile(updatedUsers)
 	if err != nil {
+		slog.Error("Failed to write users file", "error", err)
 		restError.NewInternalServerError("Failed to write users file").Throw(w)
 		return
 	}
@@ -135,6 +147,7 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 
 	users, err := storage.ReadUsersFromFile()
 	if err != nil {
+		slog.Error("Failed to read users file", "error", err)
 		restError.NewInternalServerError("Failed to read users file").Throw(w)
 		return
 	}
@@ -153,12 +166,14 @@ func GetUserByID(w http.ResponseWriter, r *http.Request) {
 	idStr := r.URL.Path[len("/users/"):]
 	id, err := uuid.Parse(idStr)
 	if err != nil {
+		slog.Error("Failed to parse user ID", "error", err)
 		restError.NewBadRequestError("Invalid user ID").Throw(w)
 		return
 	}
 
 	users, err := storage.ReadUsersFromFile()
 	if err != nil {
+		slog.Error("Failed to read users file", "error", err)
 		restError.NewInternalServerError("Failed to read users file").Throw(w)
 		return
 	}
@@ -172,5 +187,6 @@ func GetUserByID(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	slog.Info("User not found", "userID", id)
 	restError.NewNotFoundError("User not found").Throw(w)
 }
