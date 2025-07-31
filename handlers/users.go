@@ -7,6 +7,7 @@ import (
 	"studying-go/models"
 	"studying-go/storage"
 	restError "studying-go/types"
+	encryptor "studying-go/utils"
 
 	"github.com/google/uuid"
 )
@@ -32,6 +33,13 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	newUser.ID = id
+	encryptedPassword, err := encryptor.HashPassword(newUser.Password)
+	if err != nil {
+		slog.Error("Failed to encrypt password", "error", err)
+		restError.NewInternalServerError("Failed to encrypt password").Throw(w)
+		return
+	}
+	newUser.Password = encryptedPassword
 
 	users, err := storage.ReadUsersFromFile()
 	if err != nil {
@@ -69,7 +77,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var updatedUser models.User
+	var updatedUser models.UserResponse
 	err = json.NewDecoder(r.Body).Decode(&updatedUser)
 	if err != nil {
 		slog.Error("Failed to decode request body", "error", err)
@@ -86,7 +94,10 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	for i, user := range users {
 		if user.ID == id {
-			users[i] = updatedUser
+			users[i].Email = updatedUser.Email
+			users[i].Age = updatedUser.Age
+			users[i].PhoneNumber = updatedUser.PhoneNumber
+			users[i].Address = updatedUser.Address
 			break
 		}
 	}
@@ -145,7 +156,7 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	users, err := storage.ReadUsersFromFile()
+	users, err := storage.ReadUsersFromFileToResponse()
 	if err != nil {
 		slog.Error("Failed to read users file", "error", err)
 		restError.NewInternalServerError("Failed to read users file").Throw(w)
@@ -171,7 +182,7 @@ func GetUserByID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	users, err := storage.ReadUsersFromFile()
+	users, err := storage.ReadUsersFromFileToResponse()
 	if err != nil {
 		slog.Error("Failed to read users file", "error", err)
 		restError.NewInternalServerError("Failed to read users file").Throw(w)

@@ -38,6 +38,23 @@ func ReadUsersFromFile() ([]models.User, error) {
 	return users, nil
 }
 
+func ReadUsersFromFileToResponse() ([]models.UserResponse, error) {
+	EnsureUsersFileExists()
+
+	data, err := os.ReadFile(usersFile)
+	if err != nil {
+		return nil, err
+	}
+
+	var users []models.UserResponse
+	err = json.Unmarshal(data, &users)
+	if err != nil {
+		return nil, err
+	}
+
+	return users, nil
+}
+
 func WriteUsersToFile(users []models.User) error {
 	data, err := json.MarshalIndent(users, "", "  ")
 	if err != nil {

@@ -102,5 +102,19 @@
       "state": "BA",
       "country": "Brasil"
     }
+  },
+  {
+    "id": "bac7f16b-ba32-4d21-9d69-2e565a5ea119",
+    "age": 30,
+    "phone_number": "(47) 88888-8888",
+    "email": "wagner@exemplo2.com",
+    "address": {
+      "street": "Rua Tarantino",
+      "number": 342,
+      "city": "Joinville",
+      "state": "SC",
+      "country": "Brasil"
+    },
+    "password": "rC/r6l+J/PgZu/pBy9d1Ajki2kU8E2hK5iE59gfh/yxmKtyvqxr+RyAA3zc+zkdLFscAi+c="
   }
 ]
