@@ -1,7 +1,7 @@
 package validator
 
 var FieldTranslations = map[string]map[string]string{
-	"en": {
+	"en-US": {
 		"PhoneNumber": "Phone number",
 		"Email":       "Email",
 		"Age":         "Age",
@@ -13,7 +13,7 @@ var FieldTranslations = map[string]map[string]string{
 		"State":       "State",
 		"Country":     "Country",
 	},
-	"pt": {
+	"pt-BR": {
 		"PhoneNumber": "Número de telefone",
 		"Email":       "E-mail",
 		"Age":         "Idade",

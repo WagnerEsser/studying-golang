@@ -8,6 +8,7 @@ import (
 	"studying-go/storage"
 	"studying-go/utils/encryptor"
 	restError "studying-go/utils/rest_error"
+	"studying-go/utils/translations"
 	"studying-go/utils/validator"
 
 	"github.com/google/uuid"
@@ -16,7 +17,7 @@ import (
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	lang := r.Header.Get("Accept-Language")
 	if lang == "" {
-		lang = "en"
+		lang = "en-US"
 	}
 
 	if r.Method != http.MethodPost {
@@ -41,7 +42,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	id, err := uuid.NewRandom()
 	if err != nil {
 		slog.Error("Failed to generate UUID", "error", err)
-		restError.NewInternalServerError("Failed to generate UUID", lang).Throw(w)
+		restError.NewInternalServerError(translations.ErrorMessages["FailedToGenerateUUID"][lang], lang).Throw(w)
 		return
 	}
 
@@ -49,7 +50,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	encryptedPassword, err := encryptor.HashPassword(newUser.Password)
 	if err != nil {
 		slog.Error("Failed to encrypt password", "error", err)
-		restError.NewInternalServerError("Failed to encrypt password", lang).Throw(w)
+		restError.NewInternalServerError(translations.ErrorMessages["FailedToEncryptPassword"][lang], lang).Throw(w)
 		return
 	}
 	newUser.Password = encryptedPassword
@@ -57,7 +58,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	users, err := storage.ReadUsersFromFile()
 	if err != nil {
 		slog.Error("Failed to read users file", "error", err)
-		restError.NewInternalServerError("Failed to read users file", lang).Throw(w)
+		restError.NewInternalServerError(translations.ErrorMessages["FailedToReadUsersFile"][lang], lang).Throw(w)
 		return
 	}
 
@@ -66,7 +67,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	err = storage.WriteUsersToFile(users)
 	if err != nil {
 		slog.Error("Failed to write users file", "error", err)
-		restError.NewInternalServerError("Failed to write to users file", lang).Throw(w)
+		restError.NewInternalServerError(translations.ErrorMessages["FailedToWriteUsersFile"][lang], lang).Throw(w)
 		return
 	}
 
@@ -78,7 +79,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	lang := r.Header.Get("Accept-Language")
 	if lang == "" {
-		lang = "en"
+		lang = "en-US"
 	}
 
 	if r.Method != http.MethodPut {
@@ -97,7 +98,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	users, err := storage.ReadUsersFromFile()
 	if err != nil {
 		slog.Error("Failed to read users file", "error", err)
-		restError.NewInternalServerError("Failed to read users file", lang).Throw(w)
+		restError.NewInternalServerError(translations.ErrorMessages["FailedToReadUsersFile"][lang], lang).Throw(w)
 		return
 	}
 
@@ -120,7 +121,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	err = storage.WriteUsersToFile(users)
 	if err != nil {
 		slog.Error("Failed to write users file", "error", err)
-		restError.NewInternalServerError("Failed to write to users file", lang).Throw(w)
+		restError.NewInternalServerError(translations.ErrorMessages["FailedToWriteUsersFile"][lang], lang).Throw(w)
 		return
 	}
 
@@ -130,7 +131,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	lang := r.Header.Get("Accept-Language")
 	if lang == "" {
-		lang = "en"
+		lang = "en-US"
 	}
 
 	if r.Method != http.MethodDelete {
@@ -142,14 +143,14 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	id, err := uuid.Parse(idStr)
 	if err != nil {
 		slog.Error("Failed to parse user ID", "error", err)
-		restError.NewBadRequestError("Invalid user ID", lang).Throw(w)
+		restError.NewBadRequestError(translations.ErrorMessages["InvalidUserID"][lang], lang).Throw(w)
 		return
 	}
 
 	users, err := storage.ReadUsersFromFile()
 	if err != nil {
 		slog.Error("Failed to read users file", "error", err)
-		restError.NewInternalServerError("Failed to read users file", lang).Throw(w)
+		restError.NewInternalServerError(translations.ErrorMessages["FailedToReadUsersFile"][lang], lang).Throw(w)
 		return
 	}
 
@@ -163,7 +164,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	err = storage.WriteUsersToFile(updatedUsers)
 	if err != nil {
 		slog.Error("Failed to write users file", "error", err)
-		restError.NewInternalServerError("Failed to write users file", lang).Throw(w)
+		restError.NewInternalServerError(translations.ErrorMessages["FailedToWriteUsersFile"][lang], lang).Throw(w)
 		return
 	}
 
@@ -173,7 +174,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 func GetUsers(w http.ResponseWriter, r *http.Request) {
 	lang := r.Header.Get("Accept-Language")
 	if lang == "" {
-		lang = "en"
+		lang = "en-US"
 	}
 
 	if r.Method != http.MethodGet {
@@ -184,7 +185,7 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 	users, err := storage.ReadUsersFromFileToResponse()
 	if err != nil {
 		slog.Error("Failed to read users file", "error", err)
-		restError.NewInternalServerError("Failed to read users file", lang).Throw(w)
+		restError.NewInternalServerError(translations.ErrorMessages["FailedToReadUsersFile"][lang], lang).Throw(w)
 		return
 	}
 
@@ -196,7 +197,7 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 func GetUserByID(w http.ResponseWriter, r *http.Request) {
 	lang := r.Header.Get("Accept-Language")
 	if lang == "" {
-		lang = "en"
+		lang = "en-US"
 	}
 
 	if r.Method != http.MethodGet {
@@ -208,14 +209,14 @@ func GetUserByID(w http.ResponseWriter, r *http.Request) {
 	id, err := uuid.Parse(idStr)
 	if err != nil {
 		slog.Error("Failed to parse user ID", "error", err)
-		restError.NewBadRequestError("Invalid user ID", lang).Throw(w)
+		restError.NewBadRequestError(translations.ErrorMessages["InvalidUserID"][lang], lang).Throw(w)
 		return
 	}
 
 	users, err := storage.ReadUsersFromFileToResponse()
 	if err != nil {
 		slog.Error("Failed to read users file", "error", err)
-		restError.NewInternalServerError("Failed to read users file", lang).Throw(w)
+		restError.NewInternalServerError(translations.ErrorMessages["FailedToReadUsersFile"][lang], lang).Throw(w)
 		return
 	}
 
@@ -229,5 +230,5 @@ func GetUserByID(w http.ResponseWriter, r *http.Request) {
 	}
 
 	slog.Info("User not found", "userID", id)
-	restError.NewNotFoundError("User not found", lang).Throw(w)
+	restError.NewNotFoundError(translations.ErrorMessages["UserNotFound"][lang], lang).Throw(w)
 }

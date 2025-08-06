@@ -8,7 +8,7 @@ import (
 func GreetHandler(w http.ResponseWriter, r *http.Request) {
 	lang := r.Header.Get("Accept-Language")
 	if lang == "" {
-		lang = "en"
+		lang = "en-US"
 	}
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)

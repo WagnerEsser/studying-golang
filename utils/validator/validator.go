@@ -30,11 +30,11 @@ func init() {
 func ValidateStruct(s any, lang string) []restError.Cause {
 	translator, found := uni.GetTranslator(lang)
 	if !found {
-		translator, _ = uni.GetTranslator("en")
+		translator, _ = uni.GetTranslator("en-US")
 	}
 
 	switch lang {
-	case "pt":
+	case "pt-BR":
 		pt_translations.RegisterDefaultTranslations(validate, translator)
 	default:
 		en_translations.RegisterDefaultTranslations(validate, translator)

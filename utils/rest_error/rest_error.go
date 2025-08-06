@@ -40,80 +40,74 @@ func NewRestError(message string, code int, err string, causes []Cause) *RestErr
 func NewMethodNotAllowedError(lang string) *RestError {
 	return &RestError{
 		Code: http.StatusMethodNotAllowed,
-		Err:  translations.ErrorMessages["MethodNotAllowed"][lang],
+		Err:  translations.ErrorMessages["MethodNotAllowed"]["en-US"],
 	}
 }
 
 func NewBadRequestError(message string, lang string) *RestError {
-	err := translations.ErrorMessages["BadRequest"][lang]
 	if message == "" {
-		message = err
+		message = translations.ErrorMessages["BadRequest"][lang]
 	}
 	return &RestError{
 		Message: message,
 		Code:    http.StatusBadRequest,
-		Err:     err,
+		Err:     translations.ErrorMessages["BadRequest"]["en-US"],
 	}
 }
 
 func NewBadRequestErrorWithCauses(message string, causes []Cause, lang string) *RestError {
-	err := translations.ErrorMessages["BadRequest"][lang]
 	if message == "" {
-		message = err
+		message = translations.ErrorMessages["BadRequest"][lang]
 	}
 	return &RestError{
 		Message: message,
 		Code:    http.StatusBadRequest,
-		Err:     err,
+		Err:     translations.ErrorMessages["BadRequest"]["en-US"],
 		Causes:  causes,
 	}
 }
 
 func NewInternalServerError(message string, lang string) *RestError {
-	err := translations.ErrorMessages["InternalServer"][lang]
 	if message == "" {
-		message = err
+		message = translations.ErrorMessages["InternalServer"][lang]
 	}
 	return &RestError{
 		Message: message,
 		Code:    http.StatusInternalServerError,
-		Err:     err,
+		Err:     translations.ErrorMessages["InternalServer"]["en-US"],
 	}
 }
 
 func NewInternalServerErrorWithCauses(message string, causes []Cause, lang string) *RestError {
-	err := translations.ErrorMessages["InternalServer"][lang]
 	if message == "" {
-		message = err
+		message = translations.ErrorMessages["InternalServer"][lang]
 	}
 	return &RestError{
 		Message: message,
 		Code:    http.StatusInternalServerError,
-		Err:     err,
+		Err:     translations.ErrorMessages["InternalServer"]["en-US"],
 		Causes:  causes,
 	}
 }
 func NewNotFoundError(message string, lang string) *RestError {
-	err := translations.ErrorMessages["NotFound"][lang]
 	if message == "" {
-		message = err
+		message = translations.ErrorMessages["NotFound"][lang]
 	}
 	return &RestError{
 		Message: message,
 		Code:    http.StatusNotFound,
-		Err:     err,
+		Err:     translations.ErrorMessages["NotFound"]["en-US"],
 	}
 }
 
 func NewNotFoundErrorWithCauses(message string, causes []Cause, lang string) *RestError {
-	err := translations.ErrorMessages["NotFound"][lang]
 	if message == "" {
-		message = err
+		message = translations.ErrorMessages["NotFound"][lang]
 	}
 	return &RestError{
 		Message: message,
 		Code:    http.StatusNotFound,
-		Err:     err,
+		Err:     translations.ErrorMessages["NotFound"]["en-US"],
 		Causes:  causes,
 	}
 }
