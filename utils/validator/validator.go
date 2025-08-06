@@ -1,7 +1,9 @@
 package validator
 
 import (
+	"fmt"
 	"log/slog"
+	"strings"
 	restError "studying-go/types/resterror"
 
 	"github.com/go-playground/locales/en"
@@ -15,26 +17,48 @@ import (
 var (
 	uni      *ut.UniversalTranslator
 	validate *validator.Validate
+	fieldMap = map[string]map[string]string{
+		"en": {
+			"PhoneNumber": "Phone number",
+			"Email":       "Email",
+			"Age":         "Age",
+			"Address":     "Address",
+			"Password":    "Password",
+			"Street":      "Street",
+			"Number":      "Number",
+			"City":        "City",
+			"State":       "State",
+			"Country":     "Country",
+		},
+		"pt": {
+			"PhoneNumber": "Número de telefone",
+			"Email":       "E-mail",
+			"Age":         "Idade",
+			"Address":     "Endereço",
+			"Password":    "Senha",
+			"Street":      "Rua",
+			"Number":      "Número",
+			"City":        "Cidade",
+			"State":       "Estado",
+			"Country":     "País",
+		},
+	}
 )
 
 func init() {
-	// Configura os idiomas suportados
 	enLocale := en.New()
 	ptLocale := pt.New()
 	uni = ut.New(enLocale, ptLocale)
 
-	// Inicializa o validador
 	validate = validator.New()
 }
 
 func ValidateStruct(s any, lang string) []restError.Cause {
-	// Seleciona o tradutor com base no idioma
 	translator, found := uni.GetTranslator(lang)
 	if !found {
-		translator, _ = uni.GetTranslator("en") // Fallback para inglês
+		translator, _ = uni.GetTranslator("en")
 	}
 
-	// Registra as traduções no validador
 	switch lang {
 	case "pt":
 		pt_translations.RegisterDefaultTranslations(validate, translator)
@@ -42,16 +66,45 @@ func ValidateStruct(s any, lang string) []restError.Cause {
 		en_translations.RegisterDefaultTranslations(validate, translator)
 	}
 
+	registerFieldTranslations(translator, lang)
+
 	if err := validate.Struct(s); err != nil {
 		var causes []restError.Cause
 		for _, err := range err.(validator.ValidationErrors) {
+			translatedFieldName := translateFieldName(err.Field(), lang)
+
+			message := err.Translate(translator)
+			message = replaceFieldNameInMessage(message, err.Field(), translatedFieldName)
+
 			causes = append(causes, restError.Cause{
 				Field:   err.Field(),
-				Message: err.Translate(translator),
+				Message: message,
 			})
 		}
 		slog.Error("Validation errors", "causes", causes)
 		return causes
 	}
 	return nil
+}
+
+func registerFieldTranslations(translator ut.Translator, lang string) {
+	for field, translation := range fieldMap[lang] {
+		_ = validate.RegisterTranslation(field, translator, func(ut ut.Translator) error {
+			return ut.Add(field, fmt.Sprintf("%s is invalid", translation), true)
+		}, func(ut ut.Translator, fe validator.FieldError) string {
+			t, _ := ut.T(field, translation)
+			return t
+		})
+	}
+}
+
+func translateFieldName(fieldName, lang string) string {
+	if translation, ok := fieldMap[lang][fieldName]; ok {
+		return translation
+	}
+	return fieldName
+}
+
+func replaceFieldNameInMessage(message, originalField, translatedField string) string {
+	return strings.ReplaceAll(message, originalField, translatedField)
 }
