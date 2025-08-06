@@ -2,13 +2,17 @@ package handlers
 
 import (
 	"net/http"
-	restError "studying-go/types/resterror"
+	restError "studying-go/utils/rest_error"
 )
 
 func GreetHandler(w http.ResponseWriter, r *http.Request) {
+	lang := r.Header.Get("Accept-Language")
+	if lang == "" {
+		lang = "en"
+	}
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		restError.NewMethodNotAllowedError().Throw(w)
+		restError.NewMethodNotAllowedError(lang).Throw(w)
 		return
 	}
 

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log/slog"
 	"strings"
-	restError "studying-go/types/resterror"
+	restError "studying-go/utils/rest_error"
 
 	"github.com/go-playground/locales/en"
 	"github.com/go-playground/locales/pt"
