@@ -1,9 +1,9 @@
-package utils
+package validator
 
 import (
 	"fmt"
 	"log/slog"
-	restError "studying-go/types"
+	"studying-go/types/restError"
 
 	"github.com/go-playground/validator/v10"
 )

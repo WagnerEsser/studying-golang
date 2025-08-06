@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"net/http"
-	restError "studying-go/types"
+	"studying-go/types/restError"
 )
 
 func GreetHandler(w http.ResponseWriter, r *http.Request) {

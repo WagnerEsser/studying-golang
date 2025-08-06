@@ -6,8 +6,9 @@ import (
 	"net/http"
 	"studying-go/models"
 	"studying-go/storage"
-	restError "studying-go/types"
-	"studying-go/utils"
+	"studying-go/types/restError"
+	"studying-go/utils/encryptor"
+	"studying-go/utils/validator"
 
 	"github.com/google/uuid"
 )
@@ -26,7 +27,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	errCauses := utils.ValidateStruct(newUser)
+	errCauses := validator.ValidateStruct(newUser)
 	if errCauses != nil {
 		restError.NewBadRequestErrorWithCauses("Invalid values", errCauses).Throw(w)
 		return
@@ -40,7 +41,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	newUser.ID = id
-	encryptedPassword, err := utils.HashPassword(newUser.Password)
+	encryptedPassword, err := encryptor.HashPassword(newUser.Password)
 	if err != nil {
 		slog.Error("Failed to encrypt password", "error", err)
 		restError.NewInternalServerError("Failed to encrypt password").Throw(w)
@@ -97,7 +98,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 			users[i].PhoneNumber = updatedUser.PhoneNumber
 			users[i].Address = updatedUser.Address
 
-			errCauses := utils.ValidateStruct(users[i])
+			errCauses := validator.ValidateStruct(users[i])
 			if errCauses != nil {
 				restError.NewBadRequestErrorWithCauses("Invalid values", errCauses).Throw(w)
 				return
