@@ -27,7 +27,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	errCauses := validator.ValidateStruct(newUser)
+	errCauses := validator.ValidateStruct(newUser, "pt")
 	if errCauses != nil {
 		restError.NewBadRequestErrorWithCauses("Invalid values", errCauses).Throw(w)
 		return
@@ -98,7 +98,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 			users[i].PhoneNumber = updatedUser.PhoneNumber
 			users[i].Address = updatedUser.Address
 
-			errCauses := validator.ValidateStruct(users[i])
+			errCauses := validator.ValidateStruct(users[i], "pt")
 			if errCauses != nil {
 				restError.NewBadRequestErrorWithCauses("Invalid values", errCauses).Throw(w)
 				return

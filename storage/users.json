@@ -26,5 +26,19 @@
       "country": "Brasil"
     },
     "password": "CgItIMzjyGpmgAFPm0couOjkjqj5y1XDU/FSb4PcaYyywuPhfVTgu7gFCUHTPJZarps8o80="
+  },
+  {
+    "id": "f0e9c20e-4854-4b44-86fb-39d13d567ca5",
+    "age": 30,
+    "phone_number": "+5547999999999",
+    "email": "waesser@hotmail.com",
+    "address": {
+      "street": "Rua Tarantino",
+      "number": 200,
+      "city": "Joinville",
+      "state": "SC",
+      "country": "Brasil"
+    },
+    "password": "cTSzfUEN76KR2Fpk90oFSXPwMFOxPX5lHDMboHXJ6oRtwbPf5hAsW8VvTMz4cSoQRRDZz5w="
   }
 ]
