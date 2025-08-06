@@ -1,4 +1,4 @@
-package restError
+package resterror
 
 import (
 	"encoding/json"

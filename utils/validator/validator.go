@@ -2,7 +2,7 @@ package validator
 
 import (
 	"log/slog"
-	"studying-go/types/restError"
+	restError "studying-go/types/resterror"
 
 	"github.com/go-playground/locales/en"
 	"github.com/go-playground/locales/pt"

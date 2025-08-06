@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"studying-go/models"
 	"studying-go/storage"
-	"studying-go/types/restError"
+	restError "studying-go/types/resterror"
 	"studying-go/utils/encryptor"
 	"studying-go/utils/validator"
 
