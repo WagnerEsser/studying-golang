@@ -14,5 +14,5 @@ func InitRoutes() {
 	http.HandleFunc("/users/", handlers.GetUserByID)
 	http.HandleFunc("/users/new", handlers.CreateUser)
 	http.HandleFunc("/users/delete/", handlers.DeleteUser)
-	http.HandleFunc("/users/edit/", handlers.UpdateUser)
+	http.HandleFunc("/users/edit", handlers.UpdateUser)
 }

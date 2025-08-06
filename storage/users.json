@@ -1,120 +1,30 @@
 [
   {
-    "id": "189b5f25-9e23-4687-af79-05310b59339d",
-    "age": 25,
-    "phone_number": "(11) 91234-5678",
-    "email": "alice@exemplo.com",
-    "address": {
-      "street": "Rua das Flores",
-      "number": 123,
-      "city": "São Paulo",
-      "state": "SP",
-      "country": "Brasil"
-    }
-  },
-  {
-    "id": "422fe9b8-c972-4cbf-b2fc-72c13e1dff59",
-    "age": 30,
-    "phone_number": "(47) 99999-9999",
-    "email": "wagner@exemplo.com",
-    "address": {
-      "street": "Rua Tarantino",
-      "number": 555,
-      "city": "Joinville",
-      "state": "SC",
-      "country": "Brasil"
-    }
-  },
-  {
-    "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-    "age": 22,
-    "phone_number": "(21) 98765-4321",
-    "email": "bruno@exemplo.com",
-    "address": {
-      "street": "Avenida Atlântica",
-      "number": 101,
-      "city": "Rio de Janeiro",
-      "state": "RJ",
-      "country": "Brasil"
-    }
-  },
-  {
-    "id": "f1e2d3c4-b5a6-7890-cdef-1234567890ab",
-    "age": 28,
-    "phone_number": "(31) 91234-5678",
-    "email": "carla@exemplo.com",
-    "address": {
-      "street": "Rua dos Diamantes",
-      "number": 202,
-      "city": "Belo Horizonte",
-      "state": "MG",
-      "country": "Brasil"
-    }
-  },
-  {
-    "id": "12345678-90ab-cdef-1234-567890abcdef",
-    "age": 35,
-    "phone_number": "(51) 99876-5432",
-    "email": "daniel@exemplo.com",
-    "address": {
-      "street": "Rua das Palmeiras",
-      "number": 303,
-      "city": "Porto Alegre",
-      "state": "RS",
-      "country": "Brasil"
-    }
-  },
-  {
-    "id": "abcdef12-3456-7890-abcd-ef1234567890",
-    "age": 40,
-    "phone_number": "(85) 98765-4321",
-    "email": "elisa@exemplo.com",
-    "address": {
-      "street": "Avenida Beira Mar",
-      "number": 404,
-      "city": "Fortaleza",
-      "state": "CE",
-      "country": "Brasil"
-    }
-  },
-  {
-    "id": "7890abcd-ef12-3456-7890-abcd12345678",
-    "age": 27,
-    "phone_number": "(62) 91234-5678",
-    "email": "fabio@exemplo.com",
-    "address": {
-      "street": "Rua Goiás",
-      "number": 505,
-      "city": "Goiânia",
-      "state": "GO",
-      "country": "Brasil"
-    }
-  },
-  {
-    "id": "4567890a-bcde-f123-4567-890abcdef123",
-    "age": 33,
-    "phone_number": "(71) 99876-5432",
-    "email": "gabriela@exemplo.com",
-    "address": {
-      "street": "Rua Bahia",
-      "number": 606,
-      "city": "Salvador",
-      "state": "BA",
-      "country": "Brasil"
-    }
-  },
-  {
     "id": "bac7f16b-ba32-4d21-9d69-2e565a5ea119",
     "age": 30,
-    "phone_number": "(47) 88888-8888",
-    "email": "wagner@exemplo2.com",
+    "phone_number": "+5547888888888",
+    "email": "waesser@gmail.com",
     "address": {
       "street": "Rua Tarantino",
-      "number": 342,
+      "number": 100,
       "city": "Joinville",
       "state": "SC",
       "country": "Brasil"
     },
     "password": "rC/r6l+J/PgZu/pBy9d1Ajki2kU8E2hK5iE59gfh/yxmKtyvqxr+RyAA3zc+zkdLFscAi+c="
+  },
+  {
+    "id": "39a5642d-6546-46f9-8560-3df516a31c26",
+    "age": 30,
+    "phone_number": "+5547999999999",
+    "email": "waesser@hotmail.com",
+    "address": {
+      "street": "Rua Tarantino",
+      "number": 200,
+      "city": "Joinville",
+      "state": "SC",
+      "country": "Brasil"
+    },
+    "password": "CgItIMzjyGpmgAFPm0couOjkjqj5y1XDU/FSb4PcaYyywuPhfVTgu7gFCUHTPJZarps8o80="
   }
 ]

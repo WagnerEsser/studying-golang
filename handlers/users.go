@@ -7,7 +7,7 @@ import (
 	"studying-go/models"
 	"studying-go/storage"
 	restError "studying-go/types"
-	encryptor "studying-go/utils"
+	"studying-go/utils"
 
 	"github.com/google/uuid"
 )
@@ -26,14 +26,21 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	errCauses := utils.ValidateStruct(newUser)
+	if errCauses != nil {
+		restError.NewBadRequestErrorWithCauses("Invalid values", errCauses).Throw(w)
+		return
+	}
+
 	id, err := uuid.NewRandom()
 	if err != nil {
 		slog.Error("Failed to generate UUID", "error", err)
 		restError.NewInternalServerError("Failed to generate UUID").Throw(w)
 		return
 	}
+
 	newUser.ID = id
-	encryptedPassword, err := encryptor.HashPassword(newUser.Password)
+	encryptedPassword, err := utils.HashPassword(newUser.Password)
 	if err != nil {
 		slog.Error("Failed to encrypt password", "error", err)
 		restError.NewInternalServerError("Failed to encrypt password").Throw(w)
@@ -68,17 +75,8 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	idStr := r.URL.Path[len("/users/edit/"):]
-
-	id, err := uuid.Parse(idStr)
-	if err != nil {
-		slog.Error("Failed to parse user ID", "error", err)
-		restError.NewBadRequestError("Invalid user ID").Throw(w)
-		return
-	}
-
 	var updatedUser models.UserResponse
-	err = json.NewDecoder(r.Body).Decode(&updatedUser)
+	err := json.NewDecoder(r.Body).Decode(&updatedUser)
 	if err != nil {
 		slog.Error("Failed to decode request body", "error", err)
 		restError.NewBadRequestError("Invalid request body").Throw(w)
@@ -93,11 +91,17 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for i, user := range users {
-		if user.ID == id {
+		if user.ID == updatedUser.ID {
 			users[i].Email = updatedUser.Email
 			users[i].Age = updatedUser.Age
 			users[i].PhoneNumber = updatedUser.PhoneNumber
 			users[i].Address = updatedUser.Address
+
+			errCauses := utils.ValidateStruct(users[i])
+			if errCauses != nil {
+				restError.NewBadRequestErrorWithCauses("Invalid values", errCauses).Throw(w)
+				return
+			}
 			break
 		}
 	}
